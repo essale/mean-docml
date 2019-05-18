@@ -15,7 +15,9 @@ import {
   UsersComponent,
   ConnectedComponent,
   NotFoundComponent,
-  StatisticsComponent
+  StatisticsComponent,
+  InvoiceAnalyzerComponent,
+  InvoicesComponent
 } from './pages';
 /** Services */
 import { UserService } from './services/user.service';
@@ -31,12 +33,13 @@ import { ChatService } from './services/chat.service';
 import { BarRatingModule } from "ngx-bar-rating";
 import { AgmCoreModule, GoogleMapsAPIWrapper } from '@agm/core';
 
-import { HllDomainsPipe } from './pipes/hll-domains.pipe'
-import { RolesCountPipe } from './pipes/roles-count.pipe'
+import { HllDomainsPipe } from './pipes/hll-domains.pipe';
+import { RolesCountPipe } from './pipes/roles-count.pipe';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { GalleryModule } from '@ks89/angular-modal-gallery';
 import 'hammerjs';
 import 'mousetrap';
+import {InvoiceService} from './services/invoice.service';
 
 
 const PAGES = [
@@ -48,7 +51,9 @@ const PAGES = [
   UsersComponent,
   ConnectedComponent,
   NotFoundComponent,
-  StatisticsComponent
+  StatisticsComponent,
+  InvoiceAnalyzerComponent,
+  InvoicesComponent
 ];
 
 @NgModule({
@@ -81,8 +86,9 @@ const PAGES = [
     AuthGuardLogin,
     AuthGuardAdmin,
     UserService,
-    CommentService, 
-    WebsocketService, 
+    CommentService,
+    InvoiceService,
+    WebsocketService,
     ChatService,
     HllDomainsPipe,
     RolesCountPipe,
