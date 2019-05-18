@@ -1,0 +1,60 @@
+<app-toast [message]="toast.message"></app-toast>
+
+<div class="container">
+  <app-page-header [title]="title"></app-page-header>
+  <div class="row">
+    <div class="col-md-4 col-sm-12 col-centered">
+      <div class="form-wrap">
+        <form [formGroup]="invoiceForm" (ngSubmit)="submit()">
+          <div class="input-warp">
+            <mat-form-field>
+              <span matPrefix>
+                <i class="prefix fa fa-user"></i>
+              </span>
+              <input matInput #input type="text" minlength="5" maxlength="30" name="invoiceId" [formControl]="invoiceId" placeholder="Invoice ID">
+              <mat-hint align="end">{{input.value?.length || 0}}/30</mat-hint>
+              <mat-error *ngIf="invoiceId.hasError('minlength')">
+                Invoice ID must contain at least 5 characters
+              </mat-error>
+              <mat-error *ngIf="invoiceId.hasError('required')">
+                Invoice ID Name is
+                <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="input-wrap">
+            <mat-form-field>
+              <span matPrefix>
+                <i class="prefix fa fa-user"></i>
+              </span>
+              <input matInput #input type="text" minlength="5" maxlength="30" name="invoiceId" [formControl]="supplierName" placeholder="Supplier Name">
+              <mat-hint align="end">{{input.value?.length || 0}}/30</mat-hint>
+              <mat-error *ngIf="invoiceId.hasError('minlength')">
+                Supplier Name must contain at least 5 characters
+              </mat-error>
+              <mat-error *ngIf="invoiceId.hasError('required')">
+                Supplier Name is
+                <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="input-wrap">
+            <mat-form-field>
+              <span matPrefix>
+                <i class="prefix fa fa-user"></i>
+              </span>
+              <input matInput #input type="text" name="invoiceId" [formControl]="totalPayment" placeholder="Total Payment">
+              <mat-error *ngIf="totalPayment.hasError('required')">
+                Total Payment Name is
+                <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <button mat-raised-button type="submit" [disabled]="!registerForm.valid" color="accent">
+            <i class="fa fa-paper-plane"></i> Submit
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

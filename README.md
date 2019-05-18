@@ -5,6 +5,9 @@
 3. Angular CLI: `npm i -g @angular/cli`
 4. From project root: `npm install`
 5. In case of MongoDB issues run: `npm install webpack --save-dev --save-exact`
+6. Create new file named `.env` under the main project folder and add the following config:
+  a. MONGODB_URI=mongodb://localhost:27017/mean
+  b. SECRET_TOKEN=mean
 
 ## Run
 ### Development mode
