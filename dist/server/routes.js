@@ -6,6 +6,7 @@ var user_1 = require("./controllers/user");
 var comment_1 = require("./controllers/comment");
 var comment_2 = require("./models/comment");
 var user_2 = require("./models/user");
+var supplier_1 = require("./controllers/supplier");
 var checkToken = function (req, res, next) {
     var token = req.headers.authorization;
     if (!token) {
@@ -37,7 +38,7 @@ var checkToken = function (req, res, next) {
     });
 };
 var adminGuard = function (req, res, next) {
-    if (req.decoded.user.role === "admin") {
+    if (req.decoded.user.role === 'admin') {
         return next();
     }
     res.send(401);
@@ -49,8 +50,8 @@ var loginGuard = function (req, res, next) {
     res.send(401);
 };
 var selfUser = function (req, res, next) {
-    console.log("self:", req.params.id);
-    if (req.params.id === req.decoded.user._id || req.decoded.user.role === "admin") {
+    console.log('self:', req.params.id);
+    if (req.params.id === req.decoded.user._id || req.decoded.user.role === 'admin') {
         return next();
     }
     res.send(401);
@@ -60,7 +61,7 @@ var selfComment = function (req, res, next) {
         if (err || comment == null) {
             return res.send(401);
         }
-        if (comment.user == req.decoded.user._id || req.decoded.user.role === "admin") {
+        if (comment.user == req.decoded.user._id || req.decoded.user.role === 'admin') {
             return next();
         }
         return res.send(401);
@@ -69,6 +70,7 @@ var selfComment = function (req, res, next) {
 function setRoutes(app) {
     var router = express.Router();
     var userCtrl = new user_1.default();
+    var supplierCtrl = new supplier_1.default();
     var commentCtrl = new comment_1.default();
     // Users
     router.route('/login').post(userCtrl.login);
@@ -83,6 +85,12 @@ function setRoutes(app) {
     router.route('/comment/:id').all(checkToken).all(selfComment).get(commentCtrl.get);
     router.route('/comment/:id').all(checkToken).all(selfComment).put(commentCtrl.update);
     router.route('/comment/:id').all(checkToken).all(selfComment).delete(commentCtrl.delete);
+    // Supplier
+    router.route('/supplier').post(supplierCtrl.insert);
+    router.route('/supplier').all(checkToken).all(adminGuard).get(supplierCtrl.getAll);
+    router.route('/supplier/:id').all(checkToken).all(selfUser).get(supplierCtrl.get);
+    router.route('/supplier/:id').all(checkToken).all(selfUser).put(supplierCtrl.update);
+    router.route('/supplier/:id').all(checkToken).all(adminGuard).delete(supplierCtrl.delete);
     // Apply the routes to our application with the prefix /api
     app.use('/api', router);
 }

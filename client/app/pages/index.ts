@@ -7,3 +7,5 @@ export { UsersComponent } from './users/users.component';
 export { ConnectedComponent } from './connected/connected.component';
 export { NotFoundComponent } from './not-found/not-found.component';
 export { StatisticsComponent } from './statistics/statistics.component';
+export { SuppliersComponent } from './suppliers/suppliers.component';
+export { CreateSupplierComponent } from './createSupplier/createSupplier.component';
