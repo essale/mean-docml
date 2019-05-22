@@ -53,7 +53,8 @@ userSchema.pre('findOne', function (next) {
 userSchema.statics.getRolesCount = function (callback) {
     var _this = this;
     return new Promise(function (resolve, reject) {
-        _this.aggregate({ "$group": {
+        _this.aggregate({
+            '$group': {
                 _id: '$role',
                 count: { $sum: 1 }
             }

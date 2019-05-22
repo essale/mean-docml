@@ -7,6 +7,7 @@ var comment_1 = require("./controllers/comment");
 var comment_2 = require("./models/comment");
 var user_2 = require("./models/user");
 var invoice_1 = require("./controllers/invoice");
+var supplier_1 = require("./controllers/supplier");
 var checkToken = function (req, res, next) {
     var token = req.headers.authorization;
     if (!token) {
@@ -76,6 +77,7 @@ var selfInvoice = function (req, res, next) {
 function setRoutes(app) {
     var router = express.Router();
     var userCtrl = new user_1.default();
+    var supplierCtrl = new supplier_1.default();
     var commentCtrl = new comment_1.default();
     var invoiceCtrl = new invoice_1.default();
     // Apply the routes to our application with the prefix /api
@@ -93,6 +95,12 @@ function setRoutes(app) {
     router.route('/comment/:id').all(checkToken).all(selfComment).get(commentCtrl.get);
     router.route('/comment/:id').all(checkToken).all(selfComment).put(commentCtrl.update);
     router.route('/comment/:id').all(checkToken).all(selfComment).delete(commentCtrl.delete);
+    // Supplier
+    router.route('/supplier').post(supplierCtrl.insert);
+    router.route('/supplier').all(checkToken).all(adminGuard).get(supplierCtrl.getAll);
+    router.route('/supplier/:id').all(checkToken).all(selfUser).get(supplierCtrl.get);
+    router.route('/supplier/:id').all(checkToken).all(selfUser).put(supplierCtrl.update);
+    router.route('/supplier/:id').all(checkToken).all(adminGuard).delete(supplierCtrl.delete);
     // Invoice
     router.route('/invoice').all(checkToken).all(adminGuard).get(invoiceCtrl.getAll);
     router.route('/invoice').all(checkToken).all(loginGuard).post(invoiceCtrl.insert);

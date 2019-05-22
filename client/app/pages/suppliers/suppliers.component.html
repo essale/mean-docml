@@ -1,0 +1,65 @@
+<app-loading [condition]="isLoading"></app-loading>
+
+<app-toast [message]="toast.message"></app-toast>
+
+<div [hidden]="isLoading" class="container">
+    <app-page-header [title]="title"></app-page-header>
+    <div class="row">
+        <div class="col-md-12 col-centered" id="app-table">
+            <div class="mat-elevation-z4">
+                <mat-table #table [dataSource]="dataSource" matSort>
+
+                    <!--- Note that these columns can be defined in any order.
+                      The actual rendered columns are set as a property on the row definition" -->
+
+                    <!-- Username Column -->
+                    <ng-container matColumnDef="supplierName">
+                        <mat-header-cell *matHeaderCellDef>
+                            <span mat-sort-header>Supplier Name</span>
+                            <mat-form-field floatLabel="never">
+                                <mat-label>Search</mat-label>
+                                <input matInput [formControl]="supplierNameFilter">
+                            </mat-form-field>
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let supplier"> {{supplier.supplierName}} </mat-cell>
+                    </ng-container>
+
+                    <!-- Phone number Column -->
+                    <ng-container matColumnDef="phoneNumber">
+                        <mat-header-cell *matHeaderCellDef>
+                            <span mat-sort-header>phone Number</span>
+                            <mat-form-field floatLabel="never">
+                                <mat-label>Search</mat-label>
+                                <input matInput [formControl]="phoneFilter">
+                            </mat-form-field>
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let supplier"> {{supplier.phoneNumber}} </mat-cell>
+                    </ng-container>
+
+                    <!-- Email Column -->
+                    <ng-container matColumnDef="email">
+                        <mat-header-cell *matHeaderCellDef>
+                            <span mat-sort-header>Email</span>
+                            <mat-form-field floatLabel="never">
+                                <mat-label>Search</mat-label>
+                                <input matInput [formControl]="emailFilter">
+                            </mat-form-field>
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let supplier"> {{supplier.email}} </mat-cell>
+                    </ng-container>
+
+
+                    <mat-header-row *matHeaderRowDef="displayedColumns; sticky: true;"></mat-header-row>
+                    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+                </mat-table>
+                <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+            </div>
+        </div>
+    </div>
+
+    <h4 class="pipes">
+        <br/>
+        <br/>
+    </h4>
+
+</div>

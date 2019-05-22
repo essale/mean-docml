@@ -6,6 +6,8 @@ import CommentCtrl from './controllers/comment';
 import Comment from './models/comment';
 import User from './models/user';
 import InvoiceCtrl from './controllers/invoice';
+import supplier from './controllers/supplier';
+import SupplierCtrl from './controllers/supplier';
 
 let checkToken = (req, res, next) => {
 
@@ -41,10 +43,10 @@ let checkToken = (req, res, next) => {
 };
 
 let adminGuard = (req, res, next) => {
-  if (req.decoded.user.role === 'admin') {
-    return next();
-  }
-  res.send(401);
+    if (req.decoded.user.role === 'admin') {
+        return next();
+    }
+    res.send(401);
 };
 
 let loginGuard = (req, res, next) => {
@@ -55,11 +57,11 @@ let loginGuard = (req, res, next) => {
 };
 
 let selfUser = (req, res, next) => {
-  console.log('self:', req.params.id);
-  if (req.params.id === req.decoded.user._id || req.decoded.user.role === 'admin') {
-    return next();
-  }
-  res.send(401);
+    console.log('self:', req.params.id);
+    if (req.params.id === req.decoded.user._id || req.decoded.user.role === 'admin') {
+        return next();
+    }
+    res.send(401);
 };
 
 let selfComment = (req, res, next) => {
@@ -84,11 +86,12 @@ let selfInvoice = (req, res, next) => {
 
 export default function setRoutes(app) {
 
-  const router = express.Router();
+    const router = express.Router();
 
-  const userCtrl = new UserCtrl();
-  const commentCtrl = new CommentCtrl();
-  const invoiceCtrl = new InvoiceCtrl();
+    const userCtrl = new UserCtrl();
+    const supplierCtrl = new SupplierCtrl();
+    const commentCtrl = new CommentCtrl();
+    const invoiceCtrl = new InvoiceCtrl();
 
   // Apply the routes to our application with the prefix /api
   app.use('/api', router);
@@ -107,6 +110,13 @@ export default function setRoutes(app) {
   router.route('/comment/:id').all(checkToken).all(selfComment).get(commentCtrl.get);
   router.route('/comment/:id').all(checkToken).all(selfComment).put(commentCtrl.update);
   router.route('/comment/:id').all(checkToken).all(selfComment).delete(commentCtrl.delete);
+
+    // Supplier
+    router.route('/supplier').post(supplierCtrl.insert);
+    router.route('/supplier').all(checkToken).all(adminGuard).get(supplierCtrl.getAll);
+    router.route('/supplier/:id').all(checkToken).all(selfUser).get(supplierCtrl.get);
+    router.route('/supplier/:id').all(checkToken).all(selfUser).put(supplierCtrl.update);
+    router.route('/supplier/:id').all(checkToken).all(adminGuard).delete(supplierCtrl.delete);
 
   // Invoice
   router.route('/invoice').all(checkToken).all(adminGuard).get(invoiceCtrl.getAll);
