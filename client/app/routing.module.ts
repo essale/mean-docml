@@ -13,6 +13,7 @@ import {NotFoundComponent} from './pages/not-found/not-found.component';
 import {AuthGuardLogin} from './services/auth-guard-login.service';
 import {AuthGuardAdmin} from './services/auth-guard-admin.service';
 import {StatisticsComponent} from './pages/statistics/statistics.component';
+import {InvoiceAnalyzerComponent, InvoicesComponent} from './pages';
 import {SuppliersComponent} from './pages/suppliers/suppliers.component';
 import {CreateSupplierComponent} from './pages/createSupplier/createSupplier.component';
 
@@ -28,12 +29,14 @@ const routes: Routes = [
     {path: 'connected', component: ConnectedComponent, canActivate: [AuthGuardAdmin]},
     {path: 'notfound', component: NotFoundComponent},
     {path: 'statistics', component: StatisticsComponent, canActivate: [AuthGuardLogin]},
+    {path: 'invoices', component: InvoicesComponent, canActivate: [AuthGuardLogin]},
+    {path: 'invoiceAnalyzer', component: InvoiceAnalyzerComponent, canActivate: [AuthGuardLogin]},
     {path: '**', redirectTo: '/notfound'},
 ];
 
 @NgModule({
-    imports: [RouterModule.forRoot(routes)],
-    exports: [RouterModule]
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
 })
 
 export class RoutingModule {
