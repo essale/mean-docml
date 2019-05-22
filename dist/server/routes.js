@@ -6,8 +6,8 @@ var user_1 = require("./controllers/user");
 var comment_1 = require("./controllers/comment");
 var comment_2 = require("./models/comment");
 var user_2 = require("./models/user");
-var supplier_1 = require("./controllers/supplier");
 var invoice_1 = require("./controllers/invoice");
+var supplier_1 = require("./controllers/supplier");
 var checkToken = function (req, res, next) {
     var token = req.headers.authorization;
     if (!token) {
@@ -95,18 +95,18 @@ function setRoutes(app) {
     router.route('/comment/:id').all(checkToken).all(selfComment).get(commentCtrl.get);
     router.route('/comment/:id').all(checkToken).all(selfComment).put(commentCtrl.update);
     router.route('/comment/:id').all(checkToken).all(selfComment).delete(commentCtrl.delete);
-    // Invoice
-    router.route('/invoice').all(checkToken).all(adminGuard).get(invoiceCtrl.getAll);
-    router.route('/invoice').all(checkToken).all(loginGuard).post(invoiceCtrl.insert);
-    router.route('/invoice/:id').all(checkToken).all(selfInvoice).get(invoiceCtrl.get);
-    router.route('/invoice/:id').all(checkToken).all(selfInvoice).put(invoiceCtrl.update);
-    router.route('/invoice/:id').all(checkToken).all(selfInvoice).delete(invoiceCtrl.delete);
     // Supplier
     router.route('/supplier').post(supplierCtrl.insert);
     router.route('/supplier').all(checkToken).all(adminGuard).get(supplierCtrl.getAll);
     router.route('/supplier/:id').all(checkToken).all(selfUser).get(supplierCtrl.get);
     router.route('/supplier/:id').all(checkToken).all(selfUser).put(supplierCtrl.update);
     router.route('/supplier/:id').all(checkToken).all(adminGuard).delete(supplierCtrl.delete);
+    // Invoice
+    router.route('/invoice').all(checkToken).all(adminGuard).get(invoiceCtrl.getAll);
+    router.route('/invoice').all(checkToken).all(loginGuard).post(invoiceCtrl.insert);
+    router.route('/invoice/:id').all(checkToken).all(selfInvoice).get(invoiceCtrl.get);
+    router.route('/invoice/:id').all(checkToken).all(selfInvoice).put(invoiceCtrl.update);
+    router.route('/invoice/:id').all(checkToken).all(selfInvoice).delete(invoiceCtrl.delete);
 }
 exports.default = setRoutes;
 //# sourceMappingURL=routes.js.map
