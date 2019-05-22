@@ -107,8 +107,6 @@ function setRoutes(app) {
     router.route('/supplier/:id').all(checkToken).all(selfUser).get(supplierCtrl.get);
     router.route('/supplier/:id').all(checkToken).all(selfUser).put(supplierCtrl.update);
     router.route('/supplier/:id').all(checkToken).all(adminGuard).delete(supplierCtrl.delete);
-    // Apply the routes to our application with the prefix /api
-    app.use('/api', router);
 }
 exports.default = setRoutes;
 //# sourceMappingURL=routes.js.map
