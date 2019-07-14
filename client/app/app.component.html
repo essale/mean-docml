@@ -1,42 +1,78 @@
-<mat-toolbar color="primary" dir="rtl">
-  <a routerLink="/" class="link" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">
-    <i class="fa fa-home"></i>
-  </a>
-  <a [hidden]="!(auth.loggedIn && auth.isAdmin)" [matMenuTriggerFor]="adminMenu" class="link">
-    <span>|</span>
-    <i class="fa fa-wrench"></i>
-  </a>
-  <mat-menu #adminMenu="matMenu">
-    <a mat-menu-item routerLink="/users">
-      <i class="fa fa-user"></i>
-      <span> משתמשים</span>
+<mat-toolbar color="primary">
+    <a routerLink="/" class="link" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">
+        <i class="fa fa-home"></i>
+        <span>Home |</span>
     </a>
-    <a mat-menu-item routerLink="/connected">
-      <i class="fa fa-plug"></i>
-      <span> מחוברים</span>
+    <a routerLink="/invoiceAnalyzer" class="link" routerLinkActive="active"
+       [routerLinkActiveOptions]="{exact:true}">
+        <i class="fa fa-video-camera"></i>
+        <span>Analyzer |</span>
     </a>
-  </mat-menu>
-  <a routerLink="/statistics" class="link" routerLinkActive="active" [hidden]="!auth.loggedIn">
-    <span>|</span>
-    <i class="fa fa-pie-chart"></i>
-  </a>
+    <a routerLink="/invoices" class="link" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">
+        <i class="fa fa-newspaper-o"></i>
+        <span>Invoices |</span>
+    </a>
+    <a routerLink="/suppliers" class="link" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">
+        <i class="fa fa-user-o"></i>
+        <span>Suppliers |</span>
+    </a>
+    <a routerLink="/" class="link" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">
+        <i class="fa fa-area-chart"></i>
+        <span>Statistics |</span>
+    </a>
+    <a routerLink="/" class="link" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">
+        <i class="fa fa-ranch"></i>
+        <span>Settings |</span>
+    </a>
 
-  <div [hidden]="!auth.loggedIn" class="user-menu">
-    <button mat-icon-button [matMenuTriggerFor]="userMenu" class="link">
-      <i class="fa fa-user"></i>
-    </button>
-    <mat-menu #userMenu="matMenu">
-      <a mat-menu-item routerLink="/account">
-        <i class="fa fa-cog"></i>
-        <span> Settings</span>
-      </a>
-      <a mat-menu-item routerLink="/logout">
-        <i class="fa fa-sign-out"></i>
-        <span> Logout</span>
-      </a>
-    </mat-menu>
-  </div>
 </mat-toolbar>
 
 <router-outlet></router-outlet>
 <br><br>
+
+<!--<mat-toolbar color="primary" dir="rtl">
+    <a routerLink="/" class="link" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">
+        <i class="fa fa-home"></i>
+        <span>Home</span>
+    </a>
+    <a [hidden]="!(auth.loggedIn && auth.isAdmin)" [matMenuTriggerFor]="adminMenu" class="link">
+        <span>|</span>
+        <i class="fa fa-wrench"></i>
+        <span>Settings</span>
+    </a>
+    <mat-menu #adminMenu="matMenu">
+        <a mat-menu-item routerLink="/users">
+            <i class="fa fa-user"></i>
+            <span> Users</span>
+        </a>
+        <a mat-menu-item routerLink="/connected">
+            <i class="fa fa-plug"></i>
+            <span> Connected Users</span>
+        </a>
+    </mat-menu>
+    <a routerLink="/statistics" class="link" routerLinkActive="active" [hidden]="!auth.loggedIn">
+        <span>|</span>
+        <i class="fa fa-pie-chart"></i>
+        <span>Statistics</span>
+    </a>
+
+
+    <div [hidden]="!auth.loggedIn" class="user-menu">
+        <button mat-icon-button [matMenuTriggerFor]="userMenu" class="link">
+            <i class="fa fa-user"></i>Users Management
+        </button>
+        <mat-menu #userMenu="matMenu">
+            <a mat-menu-item routerLink="/account">
+                <i class="fa fa-cog"></i>
+                <span> Settings</span>
+            </a>
+            <a mat-menu-item routerLink="/logout">
+                <i class="fa fa-sign-out"></i>
+                <span> Logout</span>
+            </a>
+        </mat-menu>
+    </div>
+</mat-toolbar>
+
+
+-->
