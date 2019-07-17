@@ -11,7 +11,15 @@
           <i class="fa fa-user-plus"></i> Signup
         </button>
       </div>
-      <img class="mockup-img"  src="assets/img_web_mockups.jpg" alt="image">
+
+      <!--Map-->
+      <mat-list class="param-item" [colspan]="mapColNumber" [rowspan]="mapRowsNumber">
+          <agm-map #AgmMap [(latitude)]="location.lat" [(longitude)]="location.lng" [(zoom)]="location.zoom"
+            [disableDefaultUI]="true" [zoomControl]="true" [(fitBounds)]='location.viewport'>
+            <agm-marker *ngFor="let element of markers" [latitude]="element.lat" [longitude]="element.lng"
+              [animation]="'DROP'"></agm-marker>
+          </agm-map>
+        </mat-list>
 
       <h4 *ngIf="auth.isAdmin" class="user-role">(המשתמש הוא אדמין)</h4>
       <h4 *ngIf="!auth.isAdmin && auth.loggedIn" class="user-role">(המשתמש לא אדמין)</h4>
