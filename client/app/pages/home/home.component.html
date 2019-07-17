@@ -1,3 +1,4 @@
+
 <div class="container">
   <br />
   <br />
@@ -11,10 +12,12 @@
           <i class="fa fa-user-plus"></i> Signup
         </button>
       </div>
+      <!--
       <img class="mockup-img"  src="assets/img_web_mockups.jpg" alt="image">
-
+-->
       <h4 *ngIf="auth.isAdmin" class="user-role">(המשתמש הוא אדמין)</h4>
       <h4 *ngIf="!auth.isAdmin && auth.loggedIn" class="user-role">(המשתמש לא אדמין)</h4>
     </div>
   </div>
 </div>
+
