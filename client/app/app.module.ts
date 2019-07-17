@@ -78,7 +78,7 @@ const PAGES = [
         NgxChartsModule,
         GalleryModule.forRoot(),
         AgmCoreModule.forRoot({
-            apiKey: 'AIzaSyC9goo8rnqXdFBZ0wKt6cpPO3U-sJGOdZ0'
+            apiKey: 'AIzaSyBN5zxIZnc9RP65LduN3fSzOpirBMoBS2c'
         })
     ],
     providers: [
