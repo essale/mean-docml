@@ -26,6 +26,7 @@
     }
 }*/
 
+
 .font_navbar {
   color: black;
 }
@@ -36,7 +37,6 @@
   color: black;
 }
 
-//asaf vavbar
 * {
   margin: 0;
   padding: 0;
@@ -71,7 +71,7 @@ header {
 }
 
 .menu-toggle {
-  position: fixed;
+  position: absolute;
   top: 2.5rem;
   right: 2.5rem;
   color: #eeeeee;
@@ -201,7 +201,6 @@ nav ul li a:hover::after {
 }
 
 @media screen and (max-width: 700px) {
-
   .menu-toggle {
     display: block;
   }
@@ -239,5 +238,4 @@ nav ul li a:hover::after {
     transform: scale(1);
     opacity: 1;
   }
-
 }

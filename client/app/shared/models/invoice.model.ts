@@ -1,8 +1,9 @@
 export class Invoice {
-  _id: string;
-  username: string;
+  _id: String;
+  username: String;
   invoiceId: Number;
   supplierName: String;
   totalPayment: Number;
+  invoiceDate: String;
   createdAt: Date;
 }

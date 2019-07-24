@@ -6,6 +6,7 @@ import {Tesseract} from 'tesseract.ts';
 import {UserService} from '../../services/user.service';
 import {ToastComponent} from '../../shared/toast/toast.component';
 import {InvoiceService} from '../../services/invoice.service';
+import {SupplierService} from '../../services/supplier.service';
 import {AuthService} from '../../services/auth.service';
 
 
@@ -19,6 +20,8 @@ export class InvoiceAnalyzerComponent implements OnInit {
     title = 'Invoice Analyzer';
     invoiceForm: FormGroup;
     imagePath;
+    suppliers;
+    isLoading = true;
     img: any;
     message: string;
 
@@ -40,12 +43,19 @@ export class InvoiceAnalyzerComponent implements OnInit {
         Validators.minLength(6)
     ]);
 
+    invoiceDate = new FormControl('', [
+        Validators.required,
+        Validators.minLength(3),
+        Validators.maxLength(20)
+    ]);
+
     constructor(
         private formBuilder: FormBuilder,
         private router: Router,
         public toast: ToastComponent,
         private userService: UserService,
         private invoiceService: InvoiceService,
+        private supplierService: SupplierService,
         private authService: AuthService
     ) {
     }
@@ -55,8 +65,14 @@ export class InvoiceAnalyzerComponent implements OnInit {
             invoiceId: this.invoiceId,
             supplierName: this.supplierName,
             totalPayment: this.totalPayment,
+            invoiceDate: this.invoiceDate,
             username: this.authService.currentUser.username
         });
+
+        this.suppliers = this.supplierService.getSuppliers();
+        console.log(this.suppliers);
+
+        this.isLoading = false;
     }
 
     submit() {
@@ -102,14 +118,11 @@ export class InvoiceAnalyzerComponent implements OnInit {
             .recognize(file, config)
             // .progress(console.log)
             .then((res: any) => {
-                console.log(res);
 
-                console.log(config.lang);
-
-                if (config.lang.localeCompare('heb')) {
-                    this.parseHeb(res.words);
-                } else if (config.lang.localeCompare('eng')) {
-                    this.parseEng(res.words);
+                if (config.lang === ('heb')) {
+                    this.parseHeb(res);
+                } else if (config.lang === ('eng')) {
+                    this.parseEng(res);
                 } else {
                     return;
                 }
@@ -120,35 +133,44 @@ export class InvoiceAnalyzerComponent implements OnInit {
             console.log(reader.result);
             const parameter = {image: reader.result, imageName: file.name, username: username, lang: 'heb'};
             console.log(parameter);
-            this.invoiceService.uploadImage(parameter);
+            //this.invoiceService.uploadImage(parameter);
         };
         reader.onerror = function (error) {
             console.log('Error: ', error);
         };
+
         return reader.result;
     }
 
 
-    parseHeb(words) {
-        console.log(words);
+    parseHeb(tes) {
+        console.log(tes.text);
 
-        for (let i = 0 ; i < words.size; i++ ) {
-            if (words.contains('לתשלום:')) {
+        /*for (let i = 0 ; i < words.size; i++ ) {
+            if (tes.text.contains('לתשלום:')) {
                 break;
             }
-        }
+        }*/
 
         // Invoice id regex (i.g. 11111)
-        for (let i = 0 ; i < words.size; i++ ) {
+        /*for (let i = 0 ; i < words.size; i++ ) {
             if (words[i].match(/^([0-9]){5}$/i)) {
                 break;
             }
-        }
+        }*/
+
 
 
         // Date regex (i.g. 31.12.2019)
-        for (let i = 0 ; i < words.size; i++ ) {
-            if (words[i].match(/^([0-2][0-9]|(3)[0-1])(\/|.|-)(((0)[0-9])|((1)[0-2]))(\/|.|-)\d{4}$/i)) {
+        for (let i = 0 ; i < tes.words.length; i++ ) {
+            const word = tes.words[i].text;
+
+            const isMatch = word.match(/^([0-2][0-9]|(3)[0-1])(\/|.|-)(((0)[0-9])|((1)[0-2]))(\/|.|-)(\d{4}$|\d{2}$)/i);
+            if (isMatch) {
+                /*console.log(tes.words[i-3].text)
+                console.log(tes.words[i-2].text)
+                console.log(tes.words[i-1].text)*/
+                this.invoiceForm.controls['invoiceDate'].setValue(tes.words[i].text);
                 break;
             }
         }

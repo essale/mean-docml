@@ -7,108 +7,110 @@ import {FormControl} from '@angular/forms';
 import {InvoiceService} from '../../services/invoice.service';
 
 @Component({
-  selector: 'app-invoices',
-  templateUrl: './invoices.component.html',
-  styleUrls: ['./invoices.component.scss']
+    selector: 'app-invoices',
+    templateUrl: './invoices.component.html',
+    styleUrls: ['./invoices.component.scss']
 })
 
 export class InvoicesComponent implements OnInit {
 
-  title = 'My Invoices';
-  invoices: Invoice[] = [];
-  isLoading = true;
-  displayedColumns = ['username', 'invoiceId', 'supplierName', 'totalPayment', 'createdAt'];
-  dataSource: any;
-  filterValues = {
-    username: '',
-    supplierName: '',
-    createdAt: ''
-  };
-
-  usernameFilter = new FormControl('');
-  supplierNameFilter = new FormControl('');
-  createdAtFilter = new FormControl('');
-
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
-
-  constructor(
-      public toast: ToastComponent,
-      private invoiceService: InvoiceService,
-      public dialog: MatDialog
-  ) {
-  }
-
-  ngOnInit() {
-    this.getInvoices();
-
-    this.usernameFilter.valueChanges
-        .subscribe(
-            value => {
-              this.filterValues.username = value;
-              this.dataSource.filter = JSON.stringify(this.filterValues);
-            }
-        );
-    this.supplierNameFilter.valueChanges
-        .subscribe(
-            value => {
-              this.filterValues.createdAt = value;
-              this.dataSource.filter = JSON.stringify(this.filterValues);
-            }
-        );
-    this.createdAtFilter.valueChanges
-        .subscribe(
-            value => {
-              this.filterValues.createdAt = value;
-              this.dataSource.filter = JSON.stringify(this.filterValues);
-            }
-        );
-  }
-
-  createFilter(): (data: any, filter: string) => boolean {
-    let filterFunction = function (data, filter): boolean {
-      let searchTerms = JSON.parse(filter);
-      let flag = true;
-      Object.keys(searchTerms).forEach(function (key) {
-        if (searchTerms[key] !== '') {
-          if (!data[key] || data[key].toString().indexOf(searchTerms[key]) === -1) {
-            flag = false;
-          }
-        }
-      });
-      return flag;
+    title = 'My Invoices';
+    invoices: Invoice[] = [];
+    isLoading = true;
+    displayedColumns = ['username', 'invoiceId', 'supplierName', 'totalPayment', 'invoiceDate', 'createdAt'];
+    dataSource: any;
+    filterValues = {
+        username: '',
+        supplierName: '',
+        createdAt: ''
     };
 
-    return filterFunction;
-  }
+    usernameFilter = new FormControl('');
+    supplierNameFilter = new FormControl('');
+    totalPaymentFilter = new FormControl('');
+    invoiceDateFilter = new FormControl('');
+    createdAtFilter = new FormControl('');
 
-  getInvoices() {
-    this.invoiceService.getInvoices().subscribe(
-        data => {
-          this.invoices = data;
-          this.dataSource = new MatTableDataSource<Invoice>(this.invoices);
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
-          this.dataSource.filterPredicate = this.createFilter();
-        },
-        error => console.log(error),
-        () => this.isLoading = false
-    );
-  }
+    @ViewChild(MatPaginator) paginator: MatPaginator;
+    @ViewChild(MatSort) sort: MatSort;
 
-  deleteInvoice(invoice: Invoice) {
-    var dialogRef = this.dialog.open(ConfirmationDialogComponent, {disableClose: false});
-    dialogRef.componentInstance.title = 'Delete User';
-    dialogRef.componentInstance.message = 'Are you sure you want to delete ' + invoice.invoiceId + '?';
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.invoiceService.deleteInvoice(invoice).subscribe(
-            data => this.toast.open('invoice deleted successfully.', 'success'),
-            error => this.toast.open('error deleting the invoice', 'danger'),
-            () => this.getInvoices()
+    constructor(
+        public toast: ToastComponent,
+        private invoiceService: InvoiceService,
+        public dialog: MatDialog
+    ) {
+    }
+
+    ngOnInit() {
+        this.getInvoices();
+
+        this.usernameFilter.valueChanges
+            .subscribe(
+                value => {
+                    this.filterValues.username = value;
+                    this.dataSource.filter = JSON.stringify(this.filterValues);
+                }
+            );
+        this.supplierNameFilter.valueChanges
+            .subscribe(
+                value => {
+                    this.filterValues.createdAt = value;
+                    this.dataSource.filter = JSON.stringify(this.filterValues);
+                }
+            );
+        this.createdAtFilter.valueChanges
+            .subscribe(
+                value => {
+                    this.filterValues.createdAt = value;
+                    this.dataSource.filter = JSON.stringify(this.filterValues);
+                }
+            );
+    }
+
+    createFilter(): (data: any, filter: string) => boolean {
+        const filterFunction = function (data, filter): boolean {
+            const searchTerms = JSON.parse(filter);
+            let flag = true;
+            Object.keys(searchTerms).forEach(function (key) {
+                if (searchTerms[key] !== '') {
+                    if (!data[key] || data[key].toString().indexOf(searchTerms[key]) === -1) {
+                        flag = false;
+                    }
+                }
+            });
+            return flag;
+        };
+
+        return filterFunction;
+    }
+
+    getInvoices() {
+        this.invoiceService.getInvoices().subscribe(
+            data => {
+                this.invoices = data;
+                this.dataSource = new MatTableDataSource<Invoice>(this.invoices);
+                this.dataSource.paginator = this.paginator;
+                this.dataSource.sort = this.sort;
+                this.dataSource.filterPredicate = this.createFilter();
+            },
+            error => console.log(error),
+            () => this.isLoading = false
         );
-      }
-    });
-  }
+    }
+
+    deleteInvoice(invoice: Invoice) {
+        const dialogRef = this.dialog.open(ConfirmationDialogComponent, {disableClose: false});
+        dialogRef.componentInstance.title = 'Delete User';
+        dialogRef.componentInstance.message = 'Are you sure you want to delete ' + invoice.invoiceId + '?';
+        dialogRef.afterClosed().subscribe(result => {
+            if (result) {
+                this.invoiceService.deleteInvoice(invoice).subscribe(
+                    data => this.toast.open('invoice deleted successfully.', 'success'),
+                    error => this.toast.open('error deleting the invoice', 'danger'),
+                    () => this.getInvoices()
+                );
+            }
+        });
+    }
 }
 
