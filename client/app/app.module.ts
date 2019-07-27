@@ -1,4 +1,4 @@
-import {NgModule, CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
+import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 /** Modules */
 import {MaterialModule} from './material/material.module';
@@ -7,19 +7,19 @@ import {SharedModule} from './shared/shared.module';
 /** Components */
 import {AppComponent} from './app.component';
 import {
+    AccountComponent,
+    ConnectedComponent,
+    CreateSupplierComponent,
     HomeComponent,
-    SignupComponent,
+    InvoiceAnalyzerComponent,
+    InvoicesComponent,
     LoginComponent,
     LogoutComponent,
-    CreateSupplierComponent,
-    AccountComponent,
-    UsersComponent,
-    SuppliersComponent,
-    ConnectedComponent,
     NotFoundComponent,
+    SignupComponent,
     StatisticsComponent,
-    InvoiceAnalyzerComponent,
-    InvoicesComponent
+    SuppliersComponent,
+    UsersComponent
 } from './pages';
 /** Services */
 import {UserService} from './services/user.service';
@@ -36,14 +36,13 @@ import {ChatService} from './services/chat.service';
 import {BarRatingModule} from 'ngx-bar-rating';
 import {AgmCoreModule, GoogleMapsAPIWrapper} from '@agm/core';
 
-import { HllDomainsPipe } from './pipes/hll-domains.pipe';
-import { RolesCountPipe } from './pipes/roles-count.pipe';
-import { NgxChartsModule } from '@swimlane/ngx-charts';
-import { GalleryModule } from '@ks89/angular-modal-gallery';
+import {HllDomainsPipe} from './pipes/hll-domains.pipe';
+import {RolesCountPipe} from './pipes/roles-count.pipe';
+import {NgxChartsModule} from '@swimlane/ngx-charts';
+import {GalleryModule} from '@ks89/angular-modal-gallery';
 import 'hammerjs';
 import 'mousetrap';
 import {InvoiceService} from './services/invoice.service';
-
 
 const PAGES = [
     HomeComponent,
@@ -98,7 +97,7 @@ const PAGES = [
         ChatService,
         HllDomainsPipe,
         RolesCountPipe,
-        GoogleMapsAPIWrapper    ],
+        GoogleMapsAPIWrapper],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
     bootstrap: [AppComponent],
     entryComponents: [CreateSupplierComponent]

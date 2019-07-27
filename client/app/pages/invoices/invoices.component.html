@@ -20,7 +20,7 @@
                 <input matInput [formControl]="usernameFilter">
               </mat-form-field>
             </mat-header-cell>
-            <mat-cell *matCellDef="let invoice"> {{invoice.username}} </mat-cell>
+            <mat-cell *matCellDef="let invoice"> {{ invoice.username }} </mat-cell>
           </ng-container>
 
           <!-- InvoiceId Column -->
@@ -32,7 +32,7 @@
                 <input matInput [formControl]="supplierNameFilter">
               </mat-form-field>
             </mat-header-cell>
-            <mat-cell *matCellDef="let invoice"> {{invoice.invoiceId}} </mat-cell>
+            <mat-cell *matCellDef="let invoice"> {{ invoice.invoiceId }} </mat-cell>
           </ng-container>
 
           <!-- SupplierName Column -->
@@ -44,21 +44,33 @@
                 <input matInput [formControl]="supplierNameFilter">
               </mat-form-field>
             </mat-header-cell>
-            <mat-cell *matCellDef="let invoice"> {{invoice.supplierName}} </mat-cell>
+            <mat-cell *matCellDef="let invoice"> {{ invoice.supplierName }} </mat-cell>
           </ng-container>
-  
+
           <!-- TotalPayment Column -->
           <ng-container matColumnDef="totalPayment">
             <mat-header-cell *matHeaderCellDef>
               <span mat-sort-header>Total Payment</span>
               <mat-form-field floatLabel="never">
                 <mat-label>Search</mat-label>
-                <input matInput [formControl]="totalPayment">
+                <input matInput [formControl]="totalPaymentFilter">
               </mat-form-field>
             </mat-header-cell>
-            <mat-cell *matCellDef="let invoice"> {{invoice.totalPayment}} </mat-cell>
+            <mat-cell *matCellDef="let invoice"> {{ invoice.totalPayment }} </mat-cell>
           </ng-container>
-  
+
+          <!-- InvoiceDate Column -->
+          <ng-container matColumnDef="invoiceDate">
+            <mat-header-cell *matHeaderCellDef>
+              <span mat-sort-header>Invoice Date</span>
+              <mat-form-field floatLabel="never">
+                <mat-label>Search</mat-label>
+                <input matInput [formControl]="invoiceDateFilter">
+              </mat-form-field>
+            </mat-header-cell>
+            <mat-cell *matCellDef="let invoice"> {{ invoice.invoiceDate }} </mat-cell>
+          </ng-container>
+
           <!-- SupplierName Column -->
           <ng-container matColumnDef="createdAt">
             <mat-header-cell *matHeaderCellDef>
@@ -68,7 +80,7 @@
                 <input matInput [formControl]="createdAtFilter">
               </mat-form-field>
             </mat-header-cell>
-            <mat-cell *matCellDef="let invoice"> {{invoice.createdAt}} </mat-cell>
+            <mat-cell *matCellDef="let invoice"> {{ invoice.createdAt }} </mat-cell>
           </ng-container>
           
           <!-- Action Column -->
