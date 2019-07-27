@@ -1,11 +1,12 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {ToastComponent} from '../../shared/toast/toast.component';
-// import { AuthService } from '../../services/auth.service';
+import { AuthService } from '../../services/auth.service';
 import {Supplier} from '../../shared/models/supplier.model';
 import {ConfirmationDialogComponent} from '../../shared/confirm/confirmation-dialog';
-import {MatDialog, MatPaginator, MatTableDataSource, MatSort} from '@angular/material';
+import {MatDialog, MatDialogConfig, MatPaginator, MatTableDataSource, MatSort} from '@angular/material';
 import {FormControl} from '@angular/forms';
 import {SupplierService} from '../../services/supplier.service';
+import { CreateSupplierComponent } from '../createSupplier/createSupplier.component';
 
 @Component({
     selector: 'app-suppliers',
@@ -19,7 +20,7 @@ export class SuppliersComponent implements OnInit {
     suppliers: Supplier[] = [];
     isLoading = true;
     hllCounter: number = 0;
-    displayedColumns = ['supplierName', 'email', 'phoneNumber'];
+    displayedColumns = ['supplierName', 'email', 'phoneNumber', 'action'];
     dataSource: any;
 
     filterValues = {
@@ -35,7 +36,7 @@ export class SuppliersComponent implements OnInit {
     @ViewChild(MatSort) sort: MatSort;
 
     constructor(
-        // public auth: AuthService,
+        public auth: AuthService,
         public toast: ToastComponent,
         private supplierService: SupplierService,
         public dialog: MatDialog
@@ -110,7 +111,7 @@ export class SuppliersComponent implements OnInit {
         );
     }
 
-    deleteSupplier(supplier: Supplier) {
+    onDelete(supplier: Supplier) {
         var dialogRef = this.dialog.open(ConfirmationDialogComponent, {disableClose: false});
         dialogRef.componentInstance.title = 'Delete Supplier';
         dialogRef.componentInstance.message = 'Are you sure you want to delete ' + supplier.supplierName + '?';
@@ -123,6 +124,18 @@ export class SuppliersComponent implements OnInit {
                 );
             }
         });
+    }
+
+    onCreate() {
+        const dialogConfig = new MatDialogConfig();
+        dialogConfig.autoFocus = true;
+        dialogConfig.width = "60%";
+        this.dialog.open(CreateSupplierComponent, dialogConfig);
+        // TODO: need to refresh the table after creation to see the new row.
+    }
+
+    onEdit(supplier: Supplier) {
+        // TODO: need to create edit form
     }
 }
 

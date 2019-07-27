@@ -98,10 +98,10 @@ const PAGES = [
         ChatService,
         HllDomainsPipe,
         RolesCountPipe,
-        GoogleMapsAPIWrapper
-    ],
+        GoogleMapsAPIWrapper    ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    bootstrap: [AppComponent]
+    bootstrap: [AppComponent],
+    entryComponents: [CreateSupplierComponent]
 })
 
 export class AppModule {

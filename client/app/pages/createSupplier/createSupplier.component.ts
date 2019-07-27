@@ -5,6 +5,8 @@ import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {UserService} from '../../services/user.service';
 import {ToastComponent} from '../../shared/toast/toast.component';
 import {SupplierService} from '../../services/supplier.service';
+import {MatDialogRef} from '@angular/material';
+
 
 const EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
@@ -47,7 +49,8 @@ export class CreateSupplierComponent implements OnInit {
         private formBuilder: FormBuilder,
         private router: Router,
         public toast: ToastComponent,
-        private supplierService: SupplierService
+        private supplierService: SupplierService,
+        public dialogRef: MatDialogRef<CreateSupplierComponent>
     ) {
     }
 
@@ -64,9 +67,13 @@ export class CreateSupplierComponent implements OnInit {
         this.supplierService.addSupplier(this.registerForm.value).subscribe(
             res => {
                 this.toast.open('you successfully added new supplier!', 'success');
-                this.router.navigate(['/suppliers']);
             },
             error => this.toast.open('failed to add new supplier', 'danger')
         );
+        this.onClose();
+    }
+
+    onClose() {
+        this.dialogRef.close();
     }
 }

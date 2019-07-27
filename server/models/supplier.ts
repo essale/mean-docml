@@ -1,5 +1,5 @@
-import * as bcrypt from 'bcryptjs';
 import * as mongoose from 'mongoose';
+import User from './user';
 
 const supplierSchema = new mongoose.Schema({
     supplierName: String,
@@ -7,6 +7,7 @@ const supplierSchema = new mongoose.Schema({
     phoneNumber: Number,
     faxNumber: Number,
     email: {type: String, unique: true, lowercase: true, trim: true},
+    createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     createdAt: {type: Date, default: Date.now},
     invoiceScheme: JSON
 });
