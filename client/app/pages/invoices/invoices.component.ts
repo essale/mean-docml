@@ -5,6 +5,7 @@ import {ConfirmationDialogComponent} from '../../shared/confirm/confirmation-dia
 import {MatDialog, MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
 import {FormControl} from '@angular/forms';
 import {InvoiceService} from '../../services/invoice.service';
+import { Action } from 'rxjs/internal/scheduler/Action';
 
 @Component({
     selector: 'app-invoices',
@@ -13,17 +14,16 @@ import {InvoiceService} from '../../services/invoice.service';
 })
 
 export class InvoicesComponent implements OnInit {
-
-    title = 'My Invoices';
-    invoices: Invoice[] = [];
-    isLoading = true;
-    displayedColumns = ['username', 'invoiceId', 'supplierName', 'totalPayment', 'invoiceDate', 'createdAt'];
-    dataSource: any;
-    filterValues = {
-        username: '',
-        supplierName: '',
-        createdAt: ''
-    };
+  title = 'My Invoices';
+  invoices: Invoice[] = [];
+  isLoading = true;
+  displayedColumns = ['username', 'invoiceId', 'supplierName', 'totalPayment', 'createdAt', 'action'];
+  dataSource: any;
+  filterValues = {
+    username: '',
+    supplierName: '',
+    createdAt: ''
+  };
 
     usernameFilter = new FormControl('');
     supplierNameFilter = new FormControl('');
@@ -111,6 +111,32 @@ export class InvoicesComponent implements OnInit {
                 );
             }
         });
-    }
+      }
+    });
+    
+  }
+  
+  editInvoicer(invoice: Invoice) {
+    var dialogRef = this.dialog.open(ConfirmationDialogComponent, {disableClose: false});
+    dialogRef.componentInstance.title = 'Edit Invoicer';
+    dialogRef.componentInstance.message = 'Are you sure you want to edit? ' + invoice.invoiceId + '?';
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.invoiceService.editInvoice(invoice).subscribe(
+            data => this.toast.open('invoice edited successfully.', 'success'),
+            error => this.toast.open('error editing the invoice', 'danger'),
+            () => this.getInvoices()
+        );
+      }
+    });
+  }
 }
-
+/*
+editInvoicer(invoice: Invoice) {
+  this.invoiceService.addInvoicer(this.registerForm.value).subscribe(
+      res => {
+          this.toast.open('you successfully added new invoice!', 'success');
+          this.router.navigate(['/invoices']);
+      },
+      error => this.toast.open('failed to add new invoice', 'danger')
+  );*/
